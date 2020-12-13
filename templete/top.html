@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block customcss %}
+  <link rel="stylesheet" type="text/css" href="{% static 'css/style.css'%}">
+ {% endblock customcss %}
+
+    {% block header %}
+    {% endblock header %}
+
+
+    {% block content %}
+    {% if user.is_authenticated %}
+      <h1>Hello! {{user.username}}!</h1>
+      <a href="{% url 'logout' %}">Logout here</a>
+    {% else %}
+      <h1  class="btn login-action" id="log-ac">Login here!</h1>
+      <div class="action">
+        <form class="form-login" id="action"  method="POST" action=""> {% csrf_token %}
+          <h1 class="h3 mb-3 font-weight-normal">Please login</h1>
+         <label for="inputUser" class="sr-only">User Name</label>
+         <input type="text" id="inputUser" class="form-control" name="username" placeholder="Name">
+         <label for="inputPassword" class="sr-only">Password</label>
+         <input type="password" id="inputPassword" class="form-control" name="password" placeholder="Password">
+         <input type="hidden" name='redirect_to' value='top'>
+         <div class="checkbox mb-3">
+          <button type="submit" class="login-btn">Login!</button> 
+         </div>
+       </form>
+      </div>
+
+    {% endif %}
+
+    {% for item in objects %}
+    <div class="alert alert-primary main-content" role="success">
+      <p>Title:<a href="{% url 'login' %}">{{item.title}}</a></p>
+      {% if item.images != "" %}
+      <p> 
+          <img src="{{item.images.url}}" width=50%>
+      </p>
+      {% endif %}
+      {% if item.content != "" %}
+      <p> 
+        <h5>{{item.content}}</h5>
+      </p>
+      {% endif %}
+      <p>Upped by: {{item.auther}}</p>
+      <p>Loggined by : {{ user.username}}</p>
+      {% if item.auther.id == user.id %}
+         <a href="{%url 'delete' item.pk %}" role="button">Delete</a>
+      {% endif %}
+
+   
+   </div>
+   {% endfor %}
+   <form method='POST'> {% csrf_token %}
+    <input type='hidden' name='redirect_to' value='scraype'>
+     <input type='text' name='num'>
+     <input type="submit" class="btn-primary" value="GET SCRAYPE">
+   </form>
+   <h1>{{ close }}</h1>
+   {% if error != "" %}
+    <h1 class="warning">{{error}} has occured!</h1>
+   {% endif %}
+   <div class="create">
+     <a href="{% url 'create' %}">Create New Article</a>
+   </div>
+
+    {% endblock content %}

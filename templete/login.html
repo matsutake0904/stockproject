@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block customcss %}
+  <link rel="stylesheet" type="text/css" href="{% static 'css/style.css'%}">
+ {% endblock customcss %}
+
+    {% block header %}
+    {% endblock header %}
+
+
+    {% block content %}
+    <img class="mb-4 tx-center" src="{{object.image.url}}" alt="" width="72" height="72">
+    <h1  class="btn login-action" id="log-ac">Login here!</h1>
+    <div class="action">
+    <form class="form-login" id="action"  method="POST" action=""> {% csrf_token %}
+      <h1 class="h3 mb-3 font-weight-normal">Please login</h1>
+      <label for="inputUser" class="sr-only">User Name</label>
+      <input type="text" id="inputUser" class="form-control" name="username" placeholder="Name">
+      <label for="inputPassword" class="sr-only">Password</label>
+      <input type="password" id="inputPassword" class="form-control" name="password" placeholder="Password">
+      <div class="checkbox mb-3">
+        <button type="submit" class="login-btn">Login!</button> 
+      </div>
+    </form>
+  </div>
+    <h1>{{ test }}</h1>
+
+    {% endblock content %}

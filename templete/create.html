@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block customcss %}
+  <link rel="stylesheet" type="text/css" href="{% static 'css/style.css'%}">
+ {% endblock customcss %}
+
+    {% block header %}
+    {% endblock header %}
+
+
+    {% block content %}
+    <!-- <img class="mb-4 tx-center" src="{{object.image.url}}" alt="" width="72" height="72"> -->
+    <!-- <h1  class="btn login-action" id="log-ac">Login here!</h1> -->
+    <div class="action">
+      <form  method="POST" action="" enctype="multipart/form-data"> {% csrf_token %}
+      <h1 class="h3 mb-3 font-weight-normal">User: {{ user.username }}</h1>
+      <label  class="sr-only">Title</label>
+      <input type="text"  class="form-control" name="title" placeholder="Title">
+      <input type="hidden" name="auther" value="{{ user.id }}">
+      <label class="sr-only">Password</label>
+      <!-- <input type="text" class="form-control" name="content" placeholder="Content">
+      <input type="text"  class="form-control" name="tag" placeholder="Tag"></textarea> -->
+      <textarea type="text" class="form-control" name="content" placeholder="Content"></textarea>
+      <textarea type="text"  class="form-control" name="tag" placeholder="Tag"></textarea>
+      <input type="file" name='images'>
+      <div class="checkbox mb-3">
+       <button type="submit" class="login-btn">Upload!</button> 
+      </div> 
+      <!-- {{ form.as_p}} -->
+    </form>
+  </div>
+    <h1>{{ test }}</h1>
+
+    {% endblock content %}

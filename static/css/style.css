@@ -1,0 +1,44 @@
+h1 {
+    color: #f0f0f0;
+}
+
+.form-login {
+    display: none;
+
+}
+
+.action {
+    display: block;
+    position: absolute;
+    top: 20%;
+    left:20%;
+    background-color:darkblue;
+    width: 60%;
+    z-index: 2;
+}
+
+#action {
+    position: absolute;
+    top: 20%;
+    left:20%;
+    background-color:darkblue;
+    width: 60%;
+}
+
+.main-page {
+    width:80%;
+    float: left;
+}
+
+.sidebar {
+    width: 20%;
+    float: left;
+}
+
+#log-ac {
+    color: #ff0000;
+}
+
+.main-content{
+    z-index: 1;
+}
