@@ -42,3 +42,8 @@ h1 {
 .main-content{
     z-index: 1;
 }
+
+.login-action {
+    display: block;
+    margin: 0 auto;
+}

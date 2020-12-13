@@ -4,18 +4,26 @@
 
 {% block customcss %}
   <link rel="stylesheet" type="text/css" href="{% static 'css/style.css'%}">
+
+
  {% endblock customcss %}
 
     {% block header %}
+    <div class = 'alert alert-primary main-content' style="width: 100%;">
+      <h2>Predict Chart!</h2>
+      <h4>powerd by tensorflow</h4>
+    </div>
     {% endblock header %}
 
 
     {% block content %}
+
+
     {% if user.is_authenticated %}
       <h1>Hello! {{user.username}}!</h1>
-      <a href="{% url 'logout' %}">Logout here</a>
+      <a class="btn-secondary" href="{% url 'logout' %}">Logout here</a>
     {% else %}
-      <h1  class="btn login-action" id="log-ac">Login here!</h1>
+      <h1  class="btn-primary login-action" id="log-ac">Login here!</h1>
       <div class="action">
         <form class="form-login" id="action"  method="POST" action=""> {% csrf_token %}
           <h1 class="h3 mb-3 font-weight-normal">Please login</h1>
@@ -29,42 +37,64 @@
          </div>
        </form>
       </div>
-
     {% endif %}
 
-    {% for item in objects %}
-    <div class="alert alert-primary main-content" role="success">
-      <p>Title:<a href="{% url 'login' %}">{{item.title}}</a></p>
-      {% if item.images != "" %}
-      <p> 
-          <img src="{{item.images.url}}" width=50%>
-      </p>
-      {% endif %}
-      {% if item.content != "" %}
-      <p> 
-        <h5>{{item.content}}</h5>
-      </p>
-      {% endif %}
-      <p>Upped by: {{item.auther}}</p>
-      <p>Loggined by : {{ user.username}}</p>
-      {% if item.auther.id == user.id %}
-         <a href="{%url 'delete' item.pk %}" role="button">Delete</a>
-      {% endif %}
 
-   
-   </div>
-   {% endfor %}
-   <form method='POST'> {% csrf_token %}
-    <input type='hidden' name='redirect_to' value='scraype'>
-     <input type='text' name='num'>
-     <input type="submit" class="btn-primary" value="GET SCRAYPE">
-   </form>
-   <h1>{{ close }}</h1>
-   {% if error != "" %}
-    <h1 class="warning">{{error}} has occured!</h1>
+    {% if close != 0 %} 
+    <div id="chart_div" class = 'alert alert-primary main-content' style="width: 70%; height: 500px;"></div>
+      
+      <h2 class="ai_result">AI PREDICTED Tomorrow Close Price: {{ close }}</h2>
    {% endif %}
-   <div class="create">
+
+   {% if error != "" %}
+    <h2 class="warning">{{error}} has occured!</h2>
+   {% endif %}
+
+   {% if user.is_authenticated %}
+   <div class = 'alert alert-primary main-content' style="width: 70%;">
+    <form method='POST'> {% csrf_token %}
+      <input type='hidden' name='redirect_to' value='scraype'>
+      <input type='text' name='num'>
+      <input type="submit" class="btn-primary" value="Get Chart AND Predict!">
+    </form>
+  </div>
+   <!-- <div class="create">
      <a href="{% url 'create' %}">Create New Article</a>
-   </div>
+   </div> -->
+   {% else %}
+     <!-- <div class="create">
+      <a >Create New Article</a> -->
+      <h4 class="btn" id="log-ac">if you want to predict chart by AI, please login! </h4>
+      
+    <!-- </div> -->
+    {% endif %} 
+   <!-- Google Chart -->
+   <script type="text/javascript">
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+      var data = google.visualization.arrayToDataTable([
+        {% for candle in objects %}
+          [
+           '{{candle.date_data}}',
+            {{candle.low}},
+            {{candle.open_data}},
+            {{candle.close_data}},
+            {{candle.high}}
+          ],
+        {% endfor %}
+        // Treat first row as data as well.
+      ], true);
+
+      var options = {
+        legend:'none'
+      };
+
+      var chart = new google.visualization.CandlestickChart(document.getElementById('chart_div'));
+
+      chart.draw(data, options);
+    }
+  </script>
 
     {% endblock content %}

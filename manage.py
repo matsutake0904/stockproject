@@ -5,7 +5,7 @@ import sys
 import logging
 
 def main():
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'myBlog.settings')
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'stockproject.settings')
     logging.basicConfig(level=logging.DEBUG)
     try:
         from django.core.management import execute_from_command_line
