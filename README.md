@@ -1,5 +1,6 @@
 # stockproject
 This project is a Web App aim to predict stock chart
+
 Env:
  - middle,Framework -> Django 3.0.6
  - lang -> Python 3
